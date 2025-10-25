@@ -42,103 +42,114 @@ function getAllTodos(url) {
 
 // NUeva funcion para utilizar async y await
   const getAllTodos = async (url) => {
-    try {
-      const response = await fetch(url, {
-        headers: {
-          "X-Requested-With": "XMLHttpRequest",
-        }
-      });
+  try {
+    const response = await fetch(url, {
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      }
+    });
 
-      const data = await response.json();
-
-      const todoList = document.getElementById("todoList");
-      todoList.innerHTML = "";
-
-      (data.context).forEach(todo => {
-        const todoHTMLElement = `
-          <li>
-            <p>Task: ${todo.task}</p>
-            <p>Completed?: ${todo.completed}</p>
-          </li>`
-        todoList.innerHTML += todoHTMLElement;
-      });
-    } catch (error) {
-      console.error("Error fetching todos:", error);
-    }
-  };
-
-
-
-  const operationGetAllTodos = async (url) => {
-       r = await fetch(url, {
-        headers: {
-          "X-Requested-With": "XMLHttpRequest",
-        }
-      })
-
-      dt = await  r.json();
+    const data = await response.json();
 
     const todoList = document.getElementById("todoList");
     todoList.innerHTML = "";
 
-    (dt.context).forEach(todo => {
+    (data.context).forEach(todo => {
       const todoHTMLElement = `
         <li>
           <p>Task: ${todo.task}</p>
           <p>Completed?: ${todo.completed}</p>
         </li>`
-        todoList.innerHTML += todoHTMLElement;
+      todoList.innerHTML += todoHTMLElement;
     });
-
-
+  } catch (error) {
+    console.error("Error fetching todos:", error);
+  }
 };
 
 
-function addTodo(url, payload) {
-  fetch(url, {
-    method: "POST",
-    credentials: "same-origin",
+
+  const operationGetAllTodos = async (url) => {
+  r = await fetch(url, {
     headers: {
       "X-Requested-With": "XMLHttpRequest",
-      // "X-CSRFToken": getCookie("csrftoken"),
-    },
-    body: JSON.stringify({payload: payload})
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-  });
-}
-
-
-function updateTodo(url, payload) {
-  fetch(url, {
-    method: "PUT",
-    credentials: "same-origin",
-    headers: {
-      "X-Requested-With": "XMLHttpRequest",
-      "X-CSRFToken": getCookie("csrftoken"),
-    },
-    body: JSON.stringify({payload: payload})
-  })
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
-  });
-}
-
-
-function deleteTodo(url) {
-  fetch(url, {
-    method: "DELETE",
-    credentials: "same-origin",
-    headers: {
-      "X-Requested-With": "XMLHttpRequest",
-      "X-CSRFToken": getCookie("csrftoken"),
     }
   })
-  .then(response => response.json())
-  .then(data => {
-    console.log(data);
+
+  dt = await r.json();
+
+  const todoList = document.getElementById("todoList");
+  todoList.innerHTML = "";
+
+  (dt.context).forEach(todo => {
+    const todoHTMLElement = `
+        <li>
+          <p>Task: ${todo.task}</p>
+          <p>Completed?: ${todo.completed}</p>
+        </li>`
+    todoList.innerHTML += todoHTMLElement;
   });
-}
+};
+
+
+const addTodo = async (url, payload) => {
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      credentials: "same-origin",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: JSON.stringify({
+        payload: payload
+      })
+    });
+
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error("Error adding todo:", error);
+  }
+};
+
+
+const updateTodo = async (url, payload) => {
+  try {
+    const response = await fetch(url, {
+      method: "PUT",
+      credentials: "same-origin",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+        "X-CSRFToken": getCookie("csrftoken"),
+      },
+      body: JSON.stringify({
+        payload: payload
+      })
+    });
+
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error("Error updating todo:", error);
+  }
+};
+
+
+const deleteTodo = async (url) => {
+  try {
+    const response = await fetch(url, {
+      method: "DELETE",
+      credentials: "same-origin",
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+        "X-CSRFToken": getCookie("csrftoken"),
+      }
+    });
+
+    const data = await response.json();
+    console.log(data);
+  } catch (error) {
+    console.error("Error deleting todo:", error);
+  }
+};
