@@ -15,7 +15,7 @@ function getCookie(name) {
   return cookieValue;
 }
 
-
+/*
 function getAllTodos(url) {
   
   fetch(url, {
@@ -38,6 +38,34 @@ function getAllTodos(url) {
     });
   });
 }
+*/
+
+// NUeva funcion para utilizar async y await
+  const getAllTodos = async (url) => {
+    try {
+      const response = await fetch(url, {
+        headers: {
+          "X-Requested-With": "XMLHttpRequest",
+        }
+      });
+
+      const data = await response.json();
+
+      const todoList = document.getElementById("todoList");
+      todoList.innerHTML = "";
+
+      (data.context).forEach(todo => {
+        const todoHTMLElement = `
+          <li>
+            <p>Task: ${todo.task}</p>
+            <p>Completed?: ${todo.completed}</p>
+          </li>`
+        todoList.innerHTML += todoHTMLElement;
+      });
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+    }
+  };
 
 
 
